@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Quiz</title>
+  </head>
+  <body>
+    {% include 'quiz/navbar.html' %}
+    <div class="container mt-4" >
+        {% for question in question %}
+            <form action="{% url 'save' question.id %}" method="POST">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Q.{{question.ques}}</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="option" id="exampleRadios1" value="{{question.option1}}" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                              {{question.option1}}
+                            </label><br>
+                            <input class="form-check-input" type="radio" name="option" id="exampleRadios1" value="{{question.option2}}" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                              {{question.option2}}
+                            </label><br>
+                            <input class="form-check-input" type="radio" name="option" id="exampleRadios1" value="{{question.option3}}" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                              {{question.option3}}
+                            </label><br>
+                            <input class="form-check-input" type="radio" name="option" id="exampleRadios1" value="{{question.option4}}" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                              {{question.option4}}
+                            </label><br>
+                          </div>
+                          <button class="btn btn-success">Save</button>
+
+                    </div>
+
+                </div>
+        {% endfor %}
+            </form>
+            {% if question.has_other_pages %}
+            <div class="row mt-4 ">
+                <div class="col-lg-6">
+                        {% if question.has_previous %}
+                            <a class="btn btn-primary" href="?page={{question.previous_page_number}}">Previous</a>
+                        {% endif %}
+                
+                        {% if question.has_next %}
+                            <a class="btn btn-primary" href="?page={{question.next_page_number}}" >Next</a>
+                        {% else %}
+                            <a class="btn btn-dark" href="{% url 'result' %}">View Result</a>    
+                        {% endif %}
+                </div>
+
+            </div>
+            {% endif %}
+    </div>
+    <div class="container mt-4" >
+        <div class="card col-lg-6">
+            <div class="card-body">
+                <h5>Jump To Question</h5>
+                {% if question.has_other_pages %}
+                    <div class="pagination">
+                    {% for i in question.paginator.page_range %}
+                        {% if question.number == i %}
+                            <a class="active btn btn-primary"><span>{{i}} <span class="sr-only">(current)</span></span></a>
+                        {% else %}
+                            <a class="btn btn-light" href="?page={{i}}">{{i}}</a>    
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'quiz/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include 'quiz/navbar.html' %}
+    <div class="container">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button class="btn btn-success" >Save</button>
+        </form>
+    </div>
+
+{% endblock %}

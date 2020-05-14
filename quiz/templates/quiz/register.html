@@ -1,0 +1,24 @@
+{% extends 'quiz/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<title>SignUp</title>
+<body>
+    <div class="container my-4 col-lg-6">
+        <div class="alert alert-warning" role="alert">
+            {{form.errors}}
+        </div>    
+        <div class="card px-auto">
+            <div class="card-body">
+                <h3 class="card-title">SignUp Form</h3>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <button type="submit" class="btn btn-primary">SignUp</button>
+                  </form>
+                  Already signed up?<a href="{% url 'login' %}">Login</a>
+            </div>
+        </div>
+    
+      </div>
+</body>
+{% endblock %}

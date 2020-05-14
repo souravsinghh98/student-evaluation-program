@@ -1,0 +1,40 @@
+<style>
+  .hello-user{
+    font-size: 15px;
+    color: aliceblue;
+    margin-right: 20px;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}">QuizApp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only"></span></a>
+        </li>
+        {%  if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="#">About Us</a>
+        </li>
+        
+      </ul>
+      
+      
+    </div>
+    {% if user.is_authenticated %}
+    <span class="hello-user">Hello {{request.user.first_name}}</span>
+    <span><a class="hello-user" href="{% url 'logout' %}">Logout</a></span>
+    
+    {% else %}
+  <span><a class="hello-user" href="{% url 'login' %}">Login</a></span>
+  <span><a class="hello-user" href="{% url 'signup' %}">SignUp</a></span>
+  {% endif %}
+  </nav>

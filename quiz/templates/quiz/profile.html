@@ -1,0 +1,43 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+{% load static %}
+{% include 'quiz/navbar.html' %}
+<title>Profile</title>
+<body>
+    <div class="container my-4">
+        <div class="card mb-3" style="max-width: 540px;">
+          {% for message in messages %}
+            {{message}}
+          {% endfor %}
+            <div class="row no-gutters">
+              <div class="col-md-4  ml-3">
+                <a class="btn btn-dark" href="{% url 'changePic' %}">Change Profile Pic</a>
+                <hr>
+                <img src="{{profile.image.url}}" class="card-img" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{profile.user.first_name|title}} {{profile.user.last_name|title}}</h5>
+                  <p class="card-text">Your bio lies here.</p>
+                  <a class="btn btn-primary" href="{% url 'update' %}" >Change profile</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Languages</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for subject in subjects %}
+              <tr>
+                <td>{{subject}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>QuizApp</title>
+  </head>
+  <body>
+    {% include 'quiz/navbar.html' %}
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to QuizApp</h1>
+        <p class="lead" >Test your skills with our quiz.</p>
+        <hr class="my-4">
+        <p>The test is not official, it's just a nice way to see how much you know, or don't know, about Python.</p>
+        <p>You will get 1 point for each correct answer. At the end of the Quiz, your total score will be displayed. Maximum score is {{total}} points.</p>
+        <h5>Good Luck</h5>
+    </div>
+    <div class="container my-4">
+        <div class="row">
+          {% for subject in subjects %}
+          <div class="card col-lg-3 mx-auto">
+            <div class="card-body">
+              <img class="img-thumbnail" src="{{subject.image.url}}" alt="Responsive image" height="286" width="180">
+              <h5 class="card-title">{{subject.name}}</h5>
+              <a class="btn btn-primary" id="{{subject.id}}" href="{% url 'test' subject.id %}" >Start</a>
+
+            </div>
+
+          </div> 
+          {% endfor %}
+        </div>  
+    </div>
+    
+    
+
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
