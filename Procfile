@@ -1,0 +1,1 @@
+web: gunicorn student_eveluation_program.wsgi --log-file -
