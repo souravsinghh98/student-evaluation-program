@@ -30,7 +30,8 @@
       
     </div>
     {% if user.is_authenticated %}
-    <span class="hello-user">Hello {{request.user.first_name}}</span>
+    <span class="hello-user"><a href="{% url 'leaderboard' %}">Leaderboard</a></span>
+    <span class="hello-user">Hello {{request.user.first_name|title}}</span>
     <span><a class="hello-user" href="{% url 'logout' %}">Logout</a></span>
     
     {% else %}

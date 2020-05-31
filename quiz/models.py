@@ -25,7 +25,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     subjects = models.ManyToManyField(Subject, null=True, blank=True)
     image = models.ImageField(upload_to='images/profile', null=True, default='images/profile/default.png', blank=True)
-    
+    score = models.IntegerField(null=True, blank=True, default=0)
     def __str__(self):
         return self.user.first_name
 

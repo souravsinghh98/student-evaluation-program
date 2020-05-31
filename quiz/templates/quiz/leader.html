@@ -6,20 +6,16 @@
 <body>
     <div class="container my-4">
         <div class="card mb-3" style="max-width: 540px;">
-          {% for message in messages %}
-            {{message}}
-          {% endfor %}
+          
             <div class="row no-gutters">
               <div class="col-md-4  ml-3">
-                <a class="btn btn-dark" href="{% url 'changePic' %}">Change Profile Pic</a>
-                <hr>
-                <img src="{{profile.image.url}}" class="card-img" alt="...">
+                
+                <img src="{{leaders.image.url}}" class="card-img" alt="...">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">{{profile.user.first_name|title}} {{profile.user.last_name|title}}</h5>
-                  <p class="card-text">Total Score:{{profile.score}}</p>
-                  <a class="btn btn-primary" href="{% url 'update' %}" >Change profile</a>
+                  <h5 class="card-title">{{leaders.user.first_name|title}} {{leaders.user.last_name|title}}</h5>
+                  <p class="card-text">Total Score:{{leaders.score}}</p>
                 </div>
               </div>
             </div>
@@ -34,12 +30,11 @@
             <tbody>
               
                 {% for subject in subjects %}
-              <tr>
-                <td>{{subject}}</td>
-              
-              {% endfor %}
-              
+                <tr>
+                    <td>{{subject}}</td>
+                {% endfor %}
               </tr>
+              
               
             </tbody>
           </table>

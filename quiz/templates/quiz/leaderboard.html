@@ -1,0 +1,34 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+{% load static %}
+<div class="container mt-4">
+    <div class="alert alert-warning mt-4">
+        <h3>Leaderboard</h3>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Username</th>
+                <th scope="col">Name</th>
+                <th scope="col">Score</th>
+                <th scope="col">View Profile</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for leader in leaders %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{leader.user}}</td>
+                    <td>{{leader.user.first_name|title}} {{leader.user.last_name|title}}</td>
+                    <td>{{leader.score}}</td>
+                    <td><a class="btn btn-primary" href="{% url 'leader' leader.id %}">Profile</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+<center><a class="btn btn-warning" href="{% url 'home' %}">Home</a></center>
+</div>
+
+{% endblock %}

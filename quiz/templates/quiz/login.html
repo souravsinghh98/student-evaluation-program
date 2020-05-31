@@ -3,13 +3,12 @@
 <title>Login</title>
 <body>
     <div class="container">
-        <div class="alert alert-warning">
+        
             {% for message in messages %}
+              <div class="alert alert-warning">
                 {{message}}
+              </div>
             {% endfor %}
-            Use username : qwerty123
-            Password : Abcd@123
-        </div>
         <h3>Login Form</h3>
         <form class="mt-4" method="POST">
             {% csrf_token %}
@@ -24,7 +23,7 @@
             
             <button type="submit" class="btn btn-primary">Login</button>
           </form>
-
+          New user?<a class="btn btn-dark" href="{% url 'signup' %}">SignUp</a>
     </div>
 </body>
 {% endblock %}

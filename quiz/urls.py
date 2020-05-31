@@ -11,4 +11,6 @@ urlpatterns = [
     path('profile/', views.userProfile, name='profile'),
     path('update/', views.updateProfile, name='update'),
     path('updatePic/', views.changePic, name = 'changePic'),
+    path('leader/<pk>',views.leaderProfile, name='leader'),
+    path('leaderboard', views.leaderboard, name='leaderboard'),
 ]

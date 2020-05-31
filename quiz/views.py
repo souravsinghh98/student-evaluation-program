@@ -6,13 +6,18 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+import time
 
 # Create your views here.
 score = 0
 count = 0
+access = True
+
 def home(request):
     global score
     global count
+    global access
+    access = True
     score = 0
     count = 0
     subjects = Subject.objects.all()
@@ -21,36 +26,56 @@ def home(request):
 
 @login_required(login_url='login')
 def nextQues(request,pk):
-    subject = Subject.objects.get(id=pk)
-    user = Profile.objects.get(user = request.user)
-    user.subjects.add(subject)
-    question = Question.objects.filter(subject__name=subject)
-    paginator = Paginator(question, 1) #showing 1 ques per page
-    page_num = request.GET.get('page')
-    page_obj = paginator.get_page(page_num)
-    context = {'question':page_obj}
-    return render(request,'quiz/test.html',context)
+    global access
+    if access == False:
+        return redirect('home')
+    else:
+
+        subject = Subject.objects.get(id=pk)
+        user = Profile.objects.get(user = request.user)
+        user.subjects.add(subject)
+        question = Question.objects.filter(subject__name=subject)
+        paginator = Paginator(question, 1) #showing 1 ques per page
+        page_num = request.GET.get('page')
+        page_obj = paginator.get_page(page_num)
+    
+        context = {'question':page_obj}
+        return render(request,'quiz/test.html',context)
 
 @login_required(login_url='login')
 def saveSelected(request,pk):
     global score
     global count
-    if request.method=='POST':
-        selected = request.POST['option']
-        print(selected)
-        count += 1
-        correct_ans = Question.objects.get(id=pk)
-        print(correct_ans.correct)
-        if selected == correct_ans.correct:
-            score += 1
-    return redirect(request.META['HTTP_REFERER']) #ye bht important hai, same page pr redirect krne ke liye use kiya h
+    global access  
+    if access == False:
+        return redirect('home')
+    else:
+
+        if request.method=='POST':
+            selected = request.POST['option']
+            count += 1
+            correct_ans = Question.objects.get(id=pk)
+            if selected == correct_ans.correct:
+                score += 1
+        return redirect(request.META['HTTP_REFERER']) #ye bht important hai, same page pr redirect krne ke liye use kiya h
 
 @login_required(login_url='login')
 def result(request):
     global score
     global count
+    global access
+    access = False
+    curr_user = Profile.objects.get(user = request.user)
+    all_user = Profile.objects.all().order_by('-score')
+    if curr_user.score >15:
+        curr_user.score -= 5
+        curr_user.score += score
+        curr_user.save()
+    else:
+        curr_user.score += score
+        curr_user.save()    
     total = len(Question.objects.filter(subject__name='Python'))
-    return render(request,'quiz/result.html',{'score':score,'count':count,'total':total})
+    return render(request,'quiz/result.html',{'score':score,'count':count,'total':total,'leaders':all_user})
 
 
 def signup(request):
@@ -124,7 +149,24 @@ def changePic(request):
             messages.info(request,'Pic changed')
             return redirect('profile')
     context = {'form':form}
-    return render(request, 'quiz/profilePic.html', context)        
+    return render(request, 'quiz/profilePic.html', context)   
+
+@login_required(login_url='login')
+def leaderProfile(request,pk):
+    leader = Profile.objects.get(id=pk)
+    if leader.user == request.user:
+        return redirect('profile')
+    else:    
+        subject = leader.subjects.all()
+        return render(request,'quiz/leader.html',{'leaders':leader,'subjects':subject})
+
+@login_required(login_url='login')
+def leaderboard(request):
+    leaders = Profile.objects.all().order_by('-score')
+    return render(request,'quiz/leaderboard.html',{'leaders':leaders})
+
+
+
 
 
 
